@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 2093720950}
   - component: {fileID: 2093720949}
   m_Layer: 0
-  m_Name: Terrain2
+  m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
