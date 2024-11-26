@@ -1,0 +1,123 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+//using Unity.VisualScripting;
+using UnityEngine;
+
+public class Character : MonoBehaviour
+{
+    public CharacterController characterController;
+    public float speed = 2f;
+    public Vector3 movementVelocity;
+    public PlayerInput playerInput;
+
+    // Animation
+    public Animator animator;
+
+    public DamageZone damageZone;
+
+    //state machine
+    public enum CharacterState
+    {
+        Normal,
+        Attack
+    }
+    public CharacterState currentState; //trang thai hien tai
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        switch (currentState)
+        {
+            case CharacterState.Normal:
+                CalculateMovement();
+                break;
+            case CharacterState.Attack:
+                break;
+        }
+        characterController.Move(movementVelocity);
+    }
+
+    void CalculateMovement()
+    {
+        if (playerInput.attackInput)
+        {
+            ChangeState(CharacterState.Attack);
+            animator.SetFloat("Speed", 0);
+            return;
+        }
+
+        // Lấy thông tin đầu vào từ người chơi
+        float horizontalInput = playerInput.horizontalInput;
+        float verticalInput = playerInput.verticalInput;
+
+        // Tạo vector chuyển động dựa trên đầu vào
+        movementVelocity = new Vector3(horizontalInput, 0, verticalInput);
+
+        // Chuẩn hóa vector để đảm bảo tốc độ di chuyển nhất quán
+        movementVelocity.Normalize();
+
+        // Chuyển đổi vector theo hướng camera để nhân vật luôn di chuyển theo góc nhìn của người chơi
+        movementVelocity = Camera.main.transform.TransformDirection(movementVelocity);
+
+        // Loại bỏ thành phần y để giữ nhân vật di chuyển trên mặt phẳng xz
+        movementVelocity.y = 0;
+
+        // Tính toán vận tốc thực tế của nhân vật
+        movementVelocity *= speed * Time.deltaTime;
+
+        // Cập nhật animation
+        animator.SetFloat("Speed", movementVelocity.magnitude);
+        // Xoay hướng của nhân vật theo hướng di chuyển
+        if (movementVelocity != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(movementVelocity);
+        }
+    }
+
+    //chuyen doi trang thai
+    private void ChangeState(CharacterState newState)
+    {
+        //xoa cache
+        playerInput.attackInput = false;
+        //exit current state
+        switch (currentState)
+        {
+            case CharacterState.Normal:
+                break;
+            case CharacterState.Attack:
+                break;
+        }
+
+        //enter new state
+        switch (newState)
+        {
+            case CharacterState.Normal:
+                break;
+            case CharacterState.Attack:
+                animator.SetTrigger("Attack");
+                break;
+        }
+
+        //update current state
+        currentState = newState;
+    }
+
+    public void OnAttack1End()
+    {
+        ChangeState(CharacterState.Normal);
+    }
+    public void BeginAttack()
+    {
+        damageZone.BeginAttack();
+    }
+    public void EndAttack()
+    {
+        damageZone.EndAttack();
+    }
+}
