@@ -18,26 +18,26 @@ public class DamageZone : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Zombie") && !colliderTargets.Contains(other))
+        if (other.gameObject.CompareTag(targetTag) && !colliderTargets.Contains(other))
         {
             colliderTargets.Add(other);
-            var enemyAI = other.GetComponent<EnemyAI>();
-            if (enemyAI != null)
+            var go = other.GetComponent<Health>();
+            if (go != null)
             {
-                enemyAI.TakeDamage(damageAmount);
+                go.TakeDamage(damageAmount);
             }
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Zombie") && !colliderTargets.Contains(other))
+        if (other.gameObject.CompareTag(targetTag) && !colliderTargets.Contains(other))
         {
             colliderTargets.Add(other);
-            var enemyAI = other.GetComponent<EnemyAI>();
-            if (enemyAI != null)
+            var go = other.GetComponent<Health>();
+            if (go != null)
             {
-                enemyAI.TakeDamage(damageAmount);
+                go.TakeDamage(damageAmount);
             }
         }
     }

@@ -15,11 +15,14 @@ public class Character : MonoBehaviour
 
     public DamageZone damageZone;
 
+    public Health health;
+
     //state machine
     public enum CharacterState
     {
         Normal,
-        Attack
+        Attack,
+        Die
     }
     public CharacterState currentState; //trang thai hien tai
 
@@ -32,6 +35,11 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(health.currentHP <= 0)
+        {
+            ChangeState(CharacterState.Die);
+            return;
+        }
         switch (currentState)
         {
             case CharacterState.Normal:
@@ -102,6 +110,9 @@ public class Character : MonoBehaviour
             case CharacterState.Attack:
                 animator.SetTrigger("Attack");
                 break;
+            case CharacterState.Die:
+                animator.SetTrigger("Die");
+                break;
         }
 
         //update current state
@@ -120,4 +131,13 @@ public class Character : MonoBehaviour
     {
         damageZone.EndAttack();
     }
+
+    /*public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        if (currentHP <= 0)
+        {
+           ChangeState(CharacterState.Die);
+        }
+    }*/
 }

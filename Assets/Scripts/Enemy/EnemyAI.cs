@@ -13,10 +13,11 @@ public class EnemyAI : MonoBehaviour
     public Vector3 originalePosition; //vi tri ban dau
     public float maxDistance = 50f; //khoang cach toi da
 
-    public float currentHP;
-    public float maxHP;
-
     public Animator animator;
+
+    public DamageZone damageZone;
+
+    public Health health;
 
     //state machine
     public enum CharacterState
@@ -29,11 +30,15 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
+        navMeshAgent = GetComponent<NavMeshAgent>();
         originalePosition = transform.position;
-        currentHP = maxHP;
     }
     void Update()
     {
+        if(health.currentHP <=0)
+        {
+            ChangeState(CharacterState.Die);
+        }
         //xoay huong ve muc tieu
         if (target != null)
         {
@@ -99,9 +104,11 @@ public class EnemyAI : MonoBehaviour
         switch (newState)
         {
             case CharacterState.Normal:
+                damageZone.EndAttack();
                 break;
             case CharacterState.Attack:
                 animator.SetTrigger("Attack");
+                damageZone.BeginAttack();
                 break;
             case CharacterState.Die:
                 animator.SetTrigger("Die");
@@ -113,15 +120,5 @@ public class EnemyAI : MonoBehaviour
         currentState = newState;
     }
 
-    public void TakeDamage(float damage)
-    {
-        currentHP -= damage;
-        currentHP = Mathf.Max(0, currentHP);
-        if (currentHP <= 0)
-        {
-            ChangeState(CharacterState.Die);
-        }
-    }
-
-    //di xung quanh vi tri ban dau
+    //di xung quanh vi tri ban dau: xem video buoi 6
 }
