@@ -112,7 +112,7 @@ public class EnemyAI : MonoBehaviour
                 break;
             case CharacterState.Die:
                 animator.SetTrigger("Die");
-                Destroy(gameObject, 5f);
+                Destroy(gameObject, 3f);
                 break;
         }
 
