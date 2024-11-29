@@ -6,7 +6,8 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     public CharacterController characterController;
-    public float speed = 2f;
+    public float speed = 5f;
+    public float sprintSpeed = 10f; // Bổ sung: Tốc độ chạy nhanh
     public Vector3 movementVelocity;
     public PlayerInput playerInput;
 
@@ -77,8 +78,17 @@ public class Character : MonoBehaviour
         movementVelocity.y = 0;
 
         // Tính toán vận tốc thực tế của nhân vật
-        movementVelocity *= speed * Time.deltaTime;
+        //movementVelocity *= speed * Time.deltaTime;
 
+        // Kiểm tra phím Shift để thay đổi tốc độ 
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
+        { 
+            movementVelocity *= sprintSpeed * Time.deltaTime; // Sử dụng tốc độ chạy nhanh 
+        } 
+        else 
+        { 
+            movementVelocity *= speed * Time.deltaTime; // Sử dụng tốc độ bình thường
+        }
         // Cập nhật animation
         animator.SetFloat("Speed", movementVelocity.magnitude);
         // Xoay hướng của nhân vật theo hướng di chuyển
