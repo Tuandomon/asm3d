@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class NPC : MonoBehaviour
 {
     public GameObject NPCPanel; //tham chieu den panel
     public TextMeshProUGUI NPCTextContent; //tham chieu den text
@@ -25,7 +25,7 @@ public class NewBehaviourScript : MonoBehaviour
             for (int i = 0; i < line.Length; i++)
             {
                 NPCTextContent.text += line[i];
-                yield return new WaitForSeconds(0.2);
+                yield return new WaitForSeconds(0.2f);
             }
             yield return new WaitForSeconds(2);
         }    
@@ -35,32 +35,16 @@ public class NewBehaviourScript : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             NPCPanel.SetActive(true);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            NPCPanel.SetActive(true);
             coroutine = StartCoroutine(ReadContent());
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            NPCPanel.SetActive(true);
+            NPCPanel.SetActive(false);
             StopCoroutine(coroutine);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            NPCPanel.SetActive(true);
         }
     }
 } 
