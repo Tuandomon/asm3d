@@ -45,11 +45,14 @@ public class Character : MonoBehaviour
         {
             case CharacterState.Normal:
                 CalculateMovement();
+                characterController.Move(movementVelocity);
                 break;
             case CharacterState.Attack:
+                movementVelocity = Vector3.zero;
+                characterController.Move(movementVelocity);
                 break;
         }
-        characterController.Move(movementVelocity);
+        //characterController.Move(movementVelocity);
     }
 
     void CalculateMovement()
@@ -116,6 +119,7 @@ public class Character : MonoBehaviour
         switch (newState)
         {
             case CharacterState.Normal:
+                animator.SetFloat("Speed", 0);
                 break;
             case CharacterState.Attack:
                 animator.SetTrigger("Attack");

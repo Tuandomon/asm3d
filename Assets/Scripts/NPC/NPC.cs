@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using Cinemachine;
 
 public class NPC : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class NPC : MonoBehaviour
 
     public Button ContinueButton; // Tham chiếu đến nút Tiếp tục
     public Button CancelButton; // Tham chiếu đến nút Hủy
+
+    public CinemachineFreeLook freeLookCamera; // Tham chiếu đến Cinemachine FreeLook camera
+    public PlayerInput playerInput; // Tham chiếu đến script đầu vào của người chơi
 
     private Coroutine coroutine;
     private int currentLineIndex = 0;
@@ -25,7 +29,7 @@ public class NPC : MonoBehaviour
         ContinueButton.onClick.AddListener(ContinueDialogue);
         CancelButton.onClick.AddListener(CancelDialogue);
     }
-
+    
     IEnumerator ReadContent()
     {
         NPCTextContent.text = ""; // Xóa nội dung cũ
@@ -47,6 +51,8 @@ public class NPC : MonoBehaviour
             {
                 StopCoroutine(coroutine);
             }
+            freeLookCamera.enabled = false; // Vô hiệu hóa camera xoay hướng
+            playerInput.enabled = false; // Vô hiệu hóa đầu vào của người chơi
             StartDialogue();
         }
     }
@@ -60,6 +66,8 @@ public class NPC : MonoBehaviour
             {
                 StopCoroutine(coroutine);
             }
+            freeLookCamera.enabled = true; // Bật lại camera xoay hướng
+            playerInput.enabled = true; // Bật lại đầu vào của người chơi
             ResetDialogue();
         }
     }
@@ -91,6 +99,8 @@ public class NPC : MonoBehaviour
         {
             StopCoroutine(coroutine);
         }
+        freeLookCamera.enabled = true; // Bật lại camera xoay hướng
+        playerInput.enabled = true; // Bật lại đầu vào của người chơi
         ResetDialogue();
     }
 
@@ -101,3 +111,6 @@ public class NPC : MonoBehaviour
         isReading = false;
     }
 }
+
+
+

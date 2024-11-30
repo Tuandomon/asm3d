@@ -19,6 +19,9 @@ public class EnemyAI : MonoBehaviour
 
     public Health health;
 
+    public float attackCooldown = 2f; // Thời gian chờ giữa các lần tấn công
+    private float lastAttackTime = -Mathf.Infinity; // Thời điểm lần tấn công cuối cùng
+
     //state machine
     public enum CharacterState
     {
@@ -33,13 +36,15 @@ public class EnemyAI : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         originalePosition = transform.position;
     }
+
     void Update()
     {
-        if(health.currentHP <=0)
+        if (health.currentHP <= 0)
         {
             ChangeState(CharacterState.Die);
         }
-        //xoay huong ve muc tieu
+
+        // Xoay hướng về mục tiêu
         if (target != null)
         {
             var lookPos = target.position - transform.position;
@@ -52,46 +57,49 @@ public class EnemyAI : MonoBehaviour
         {
             return;
         }
-        //khoang cach tu vi tri hien tai den vi tri ban dau
+
+        // Khoảng cách từ vị trí hiện tại đến vị trí ban đầu
         var distanceToOriginal = Vector3.Distance(originalePosition, target.position);
-        //khoang cach tu vi tri hien tai den muc tieu
+        // Khoảng cách từ vị trí hiện tại đến mục tiêu
         var distance = Vector3.Distance(target.position, transform.position);
+
         if (distance <= radius && distanceToOriginal <= maxDistance)
         {
-            //di chuyen den muc tieu
+            // Di chuyển đến mục tiêu
             navMeshAgent.SetDestination(target.position);
             animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
 
             distance = Vector3.Distance(target.position, transform.position);
-            if (distance < 2f)
+            if (distance < 2f && Time.time >= lastAttackTime + attackCooldown) // Kiểm tra thời gian chờ
             {
-                //tan cong
+                // Tấn công
                 ChangeState(CharacterState.Attack);
+                lastAttackTime = Time.time; // Cập nhật thời điểm tấn công cuối cùng
             }
         }
 
         if (distance > radius || distanceToOriginal > maxDistance)
         {
-            //quay ve vi tri ban dau
+            // Quay về vị trí ban đầu
             navMeshAgent.SetDestination(originalePosition);
             animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
 
-            //chuyen sang trang thai dung yen
+            // Chuyển sang trạng thái đứng yên
             distance = Vector3.Distance(originalePosition, transform.position);
             if (distance < 1f)
             {
                 animator.SetFloat("Speed", 0);
             }
 
-            //binh thuong
+            // Bình thường
             ChangeState(CharacterState.Normal);
         }
     }
 
-    //chuyen doi trang thai
+    // Chuyển đổi trạng thái
     private void ChangeState(CharacterState newState)
     {
-        //exit current state
+        // Exit current state
         switch (currentState)
         {
             case CharacterState.Normal:
@@ -100,7 +108,7 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
 
-        //enter new state
+        // Enter new state
         switch (newState)
         {
             case CharacterState.Normal:
@@ -116,9 +124,8 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
 
-        //update current state
+        // Update current state
         currentState = newState;
     }
-
-    //di xung quanh vi tri ban dau: xem video buoi 6
 }
+
