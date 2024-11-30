@@ -34,7 +34,7 @@ public class NPC : MonoBehaviour
             NPCTextContent.text += line;
             yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(2f); // Dừng lại sau mỗi câu thoại
+        yield return new WaitForSeconds(0.1f); // Dừng lại sau mỗi câu thoại
         isReading = false; // Cho phép tiếp tục câu thoại khác
     }
 
