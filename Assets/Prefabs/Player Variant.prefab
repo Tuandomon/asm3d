@@ -208,9 +208,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8189980434977739222, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8963647852497838958}
-    - targetCorrespondingSourceObject: {fileID: 8189980434977739222, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5343447947445157254}
   m_SourcePrefab: {fileID: 100100000, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
 --- !u!1 &385136944652112411 stripped
 GameObject:
@@ -272,26 +269,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 8412004995023360915}
   speed: 5
+  sprintSpeed: 10
   movementVelocity: {x: 0, y: 0, z: 0}
   playerInput: {fileID: 2982232639102570771}
   animator: {fileID: 691621208112774651}
   damageZone: {fileID: 8548484601772316593}
-  health: {fileID: 5343447947445157254}
+  health: {fileID: 0}
   currentState: 0
---- !u!114 &5343447947445157254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385136944652112411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d54aa2c87e9fd44f9667dd5f842db4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 0
 --- !u!95 &691621208112774651 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9036980633323257398, guid: 2dfbb63c9cdf7504faf4ff26b0581598, type: 3}
