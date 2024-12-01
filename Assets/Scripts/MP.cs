@@ -1,30 +1,64 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class MP : MonoBehaviour
 {
     public int MaxMP;
     public int CurrentMP;
+    public float drainRate = 1f; // Số giây giảm 1 MP khi giữ shift
+    public Image manaBar; // Thanh mana
+    public TMP_Text manaText; // Văn bản hiển thị mana
+    private float nextDrainTime = 0f;
+    private bool isRecovering = false;
+
     // Start is called before the first frame update
     void Start()
     {
         CurrentMP = MaxMP;
-        StartCoroutine(RecoverMP());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            if (Time.time >= nextDrainTime && CurrentMP > 0)
+            {
+                CurrentMP--;
+                nextDrainTime = Time.time + drainRate;
+                UpdateManaUI();
+            }
+            isRecovering = false;
+        }
+        else
+        {
+            if (!isRecovering)
+            {
+                isRecovering = true;
+                StartCoroutine(RecoverMP());
+            }
+        }
     }
 
     IEnumerator RecoverMP()
     {
-        while (true)
+        while (isRecovering && !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
         {
-            yield return new WaitForSeconds(1);
-            CurrentMP += 10;
-            CurrentMP = Mathf.Min(MaxMP, CurrentMP);
+            yield return new WaitForSeconds(2f); // Hồi 2 mana mỗi giây
+            if (CurrentMP < MaxMP)
+            {
+                CurrentMP += 1;
+                UpdateManaUI();
+            }
         }
     }
-    // Update is called once per frame
-    void Update()
+
+    // Hàm cập nhật UI thanh mana
+    void UpdateManaUI()
     {
-        
+        manaBar.fillAmount = (float)CurrentMP / MaxMP;
+        manaText.text = $"{CurrentMP} / {MaxMP}";
     }
 }
