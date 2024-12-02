@@ -22,6 +22,8 @@ public class NPCQuest : MonoBehaviour
     private int currentLineIndex = 0;
     private bool isReading = false;
 
+    private QuestManager questManager; // Tham chiếu đến QuestManager
+
     private void Start()
     {
         NPCPanel.SetActive(false);
@@ -31,6 +33,10 @@ public class NPCQuest : MonoBehaviour
         // Gán sự kiện cho nút
         ContinueButton.onClick.AddListener(ContinueDialogue);
         CancelButton.onClick.AddListener(CancelDialogue);
+        QuestButton.onClick.AddListener(ShowQuestPanel);
+
+        // Lấy tham chiếu đến QuestManager
+        questManager = FindObjectOfType<QuestManager>();
     }
 
     IEnumerator ReadContent()
@@ -121,4 +127,13 @@ public class NPCQuest : MonoBehaviour
         isReading = false;
         QuestButton.gameObject.SetActive(false); // Ẩn nút nhận nhiệm vụ khi reset
     }
+
+    private void ShowQuestPanel()
+    {
+        if (questManager != null)
+        {
+            questManager.ShowQuestPanel();
+        }
+    }
 }
+

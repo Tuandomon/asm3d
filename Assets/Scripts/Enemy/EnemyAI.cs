@@ -7,11 +7,12 @@ using UnityEngine.XR;
 public class EnemyAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
-    public Transform target; //muc tieu
+    public Transform target; // Mục tiêu
 
-    public float radius = 10f; //ban kinh tim kiem muc tieu
-    public Vector3 originalePosition; //vi tri ban dau
-    public float maxDistance = 50f; //khoang cach toi da
+    public string enemyName; // Tên của kẻ thù
+    public float radius = 10f; // Bán kính tìm kiếm mục tiêu
+    public Vector3 originalePosition; // Vị trí ban đầu
+    public float maxDistance = 50f; // Khoảng cách tối đa
 
     public Animator animator;
 
@@ -22,14 +23,15 @@ public class EnemyAI : MonoBehaviour
     public float attackCooldown = 2f; // Thời gian chờ giữa các lần tấn công
     private float lastAttackTime = -Mathf.Infinity; // Thời điểm lần tấn công cuối cùng
 
-    //state machine
+    private bool expAdded = false; // Biến cờ để kiểm soát việc cập nhật số lượng giết
+
     public enum CharacterState
     {
         Normal,
         Attack,
         Die
     }
-    public CharacterState currentState; //trang thai hien tai
+    public CharacterState currentState; // Trạng thái hiện tại
 
     private void Start()
     {
@@ -39,7 +41,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (health.currentHP <= 0)
+        if (health.currentHP <= 0 && currentState != CharacterState.Die)
         {
             ChangeState(CharacterState.Die);
         }
@@ -58,61 +60,54 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        // Khoảng cách từ vị trí hiện tại đến vị trí ban đầu
         var distanceToOriginal = Vector3.Distance(originalePosition, target.position);
-        // Khoảng cách từ vị trí hiện tại đến mục tiêu
         var distance = Vector3.Distance(target.position, transform.position);
 
         if (distance <= radius && distanceToOriginal <= maxDistance)
         {
-            // Di chuyển đến mục tiêu
             navMeshAgent.SetDestination(target.position);
             animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
 
             distance = Vector3.Distance(target.position, transform.position);
-            if (distance < 2f && Time.time >= lastAttackTime + attackCooldown) // Kiểm tra thời gian chờ
+            if (distance < 2f && Time.time >= lastAttackTime + attackCooldown)
             {
-                // Tấn công
                 ChangeState(CharacterState.Attack);
-                lastAttackTime = Time.time; // Cập nhật thời điểm tấn công cuối cùng
+                lastAttackTime = Time.time;
             }
         }
-
-        if (distance > radius || distanceToOriginal > maxDistance)
+        else if (distance > radius || distanceToOriginal > maxDistance)
         {
-            // Quay về vị trí ban đầu
             navMeshAgent.SetDestination(originalePosition);
             animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
 
-            // Chuyển sang trạng thái đứng yên
             distance = Vector3.Distance(originalePosition, transform.position);
             if (distance < 1f)
             {
                 animator.SetFloat("Speed", 0);
             }
 
-            // Bình thường
             ChangeState(CharacterState.Normal);
         }
     }
 
-    // Chuyển đổi trạng thái
     private void ChangeState(CharacterState newState)
     {
-        // Exit current state
+        if (currentState == newState)
+            return;
+
         switch (currentState)
         {
             case CharacterState.Normal:
+                damageZone.EndAttack();
                 break;
             case CharacterState.Attack:
+                damageZone.EndAttack();
                 break;
         }
 
-        // Enter new state
         switch (newState)
         {
             case CharacterState.Normal:
-                damageZone.EndAttack();
                 break;
             case CharacterState.Attack:
                 animator.SetTrigger("Attack");
@@ -120,12 +115,23 @@ public class EnemyAI : MonoBehaviour
                 break;
             case CharacterState.Die:
                 animator.SetTrigger("Die");
+
+                if (!expAdded)
+                {
+                    QuestManager questManager = FindObjectOfType<QuestManager>();
+                    if (questManager != null)
+                    {
+                        questManager.UpdateKillCount(enemyName); // Cập nhật số lượng giết trong bảng nhiệm vụ
+                        expAdded = true; // Đánh dấu rằng đã cập nhật số lượng giết
+                    }
+                }
+
                 Destroy(gameObject, 3f);
                 break;
         }
 
-        // Update current state
         currentState = newState;
     }
 }
+
 
