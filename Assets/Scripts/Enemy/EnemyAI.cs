@@ -22,6 +22,11 @@ public class EnemyAI : MonoBehaviour
     public float attackCooldown = 2f; // Thời gian chờ giữa các lần tấn công
     private float lastAttackTime = -Mathf.Infinity; // Thời điểm lần tấn công cuối cùng
 
+    public int expReward = 20; // Kinh nghiệm sẽ được cộng khi kẻ thù bị tiêu diệt
+    private bool expAdded = false; // Biến cờ để kiểm soát việc thêm kinh nghiệm
+
+    private PlayerExperience playerExperience; // Tham chiếu đến PlayerExperience
+
     public enum CharacterState
     {
         Normal,
@@ -29,12 +34,12 @@ public class EnemyAI : MonoBehaviour
         Die
     }
     public CharacterState currentState; // Trạng thái hiện tại
-    private bool expAdded;
 
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         originalePosition = transform.position;
+        playerExperience = FindObjectOfType<PlayerExperience>(); // Tìm đối tượng PlayerExperience trong scene
     }
 
     void Update()
@@ -87,6 +92,7 @@ public class EnemyAI : MonoBehaviour
             ChangeState(CharacterState.Normal);
         }
     }
+
     private void ChangeState(CharacterState newState)
     {
         if (currentState == newState && newState == CharacterState.Attack)
@@ -122,6 +128,11 @@ public class EnemyAI : MonoBehaviour
 
                 if (!expAdded)
                 {
+                    if (playerExperience != null)
+                    {
+                        playerExperience.AddExperience(expReward); // Thêm kinh nghiệm cho người chơi
+                    }
+
                     QuestManager questManager = FindObjectOfType<QuestManager>();
                     if (questManager != null)
                     {
