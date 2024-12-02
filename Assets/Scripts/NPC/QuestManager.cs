@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class QuestManager : MonoBehaviour
 {
     public GameObject questPanel; // Panel nhiệm vụ
+    public RawImage directionImage; // Hình ảnh chỉ dẫn vị trí
     public TextMeshProUGUI questNameText; // Tên nhiệm vụ
     public TextMeshProUGUI killCountText; // Số lượng cần giết
     public TextMeshProUGUI killedCountText; // Số lượng đã giết
@@ -22,10 +23,10 @@ public class QuestManager : MonoBehaviour
     private void Start()
     {
         questPanel.SetActive(false); // Ẩn bảng nhiệm vụ ban đầu
+        directionImage.enabled = false; // Ẩn hình ảnh chỉ dẫn ban đầu
         completeQuestButton.onClick.AddListener(CompleteQuest);
         cancelQuestButton.onClick.AddListener(CancelQuest);
 
-        // Lấy tham chiếu đến PlayerExperience
         playerExperience = FindObjectOfType<PlayerExperience>();
     }
 
@@ -34,12 +35,13 @@ public class QuestManager : MonoBehaviour
         questNameText.text = questName;
         killCountText.text = $"Kills Needed: {requiredKills}";
         killedCountText.text = $"Kills Done: {currentKills}";
-        completeQuestButton.interactable = currentKills >= requiredKills; // Kích hoạt nút hoàn thành nếu đủ số lượng giết
+        completeQuestButton.interactable = currentKills >= requiredKills;
     }
 
     public void ShowQuestPanel()
     {
         questPanel.SetActive(true);
+        directionImage.enabled = true; // Hiển thị hình ảnh chỉ dẫn khi mở bảng nhiệm vụ
         UpdateQuestUI();
     }
 
@@ -58,6 +60,7 @@ public class QuestManager : MonoBehaviour
         {
             playerExperience.AddExperience(expReward);
             questPanel.SetActive(false); // Ẩn bảng nhiệm vụ sau khi hoàn thành
+            directionImage.enabled = false; // Ẩn hình ảnh chỉ dẫn sau khi hoàn thành
             ResetQuest(); // Reset nhiệm vụ sau khi hoàn thành
         }
     }
@@ -65,6 +68,7 @@ public class QuestManager : MonoBehaviour
     private void CancelQuest()
     {
         questPanel.SetActive(false); // Ẩn bảng nhiệm vụ khi hủy
+        directionImage.enabled = false; // Ẩn hình ảnh chỉ dẫn khi hủy
         ResetQuest(); // Reset nhiệm vụ khi hủy
     }
 
@@ -74,3 +78,4 @@ public class QuestManager : MonoBehaviour
         UpdateQuestUI();
     }
 }
+
