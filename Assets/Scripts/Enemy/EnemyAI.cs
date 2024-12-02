@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.XR;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -23,8 +22,6 @@ public class EnemyAI : MonoBehaviour
     public float attackCooldown = 2f; // Thời gian chờ giữa các lần tấn công
     private float lastAttackTime = -Mathf.Infinity; // Thời điểm lần tấn công cuối cùng
 
-    private bool expAdded = false; // Biến cờ để kiểm soát việc cập nhật số lượng giết
-
     public enum CharacterState
     {
         Normal,
@@ -32,6 +29,7 @@ public class EnemyAI : MonoBehaviour
         Die
     }
     public CharacterState currentState; // Trạng thái hiện tại
+    private bool expAdded;
 
     private void Start()
     {
@@ -89,12 +87,17 @@ public class EnemyAI : MonoBehaviour
             ChangeState(CharacterState.Normal);
         }
     }
-
     private void ChangeState(CharacterState newState)
     {
-        if (currentState == newState)
+        if (currentState == newState && newState == CharacterState.Attack)
+        {
+            // Trong trạng thái Attack, kích hoạt hoạt ảnh tấn công liên tục
+            animator.SetTrigger("Attack");
+            damageZone.BeginAttack();
             return;
+        }
 
+        // Kết thúc trạng thái cũ
         switch (currentState)
         {
             case CharacterState.Normal:
@@ -105,6 +108,7 @@ public class EnemyAI : MonoBehaviour
                 break;
         }
 
+        // Bắt đầu trạng thái mới
         switch (newState)
         {
             case CharacterState.Normal:
@@ -121,8 +125,8 @@ public class EnemyAI : MonoBehaviour
                     QuestManager questManager = FindObjectOfType<QuestManager>();
                     if (questManager != null)
                     {
-                        questManager.UpdateKillCount(enemyName); // Cập nhật số lượng giết trong bảng nhiệm vụ
-                        expAdded = true; // Đánh dấu rằng đã cập nhật số lượng giết
+                        questManager.UpdateKillCount(enemyName);
+                        expAdded = true;
                     }
                 }
 
@@ -133,5 +137,3 @@ public class EnemyAI : MonoBehaviour
         currentState = newState;
     }
 }
-
-
