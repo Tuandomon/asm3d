@@ -8,7 +8,7 @@ public class DamageZone : MonoBehaviour
     public int damageAmount = 20;
 
     public string targetTag; //tag Enemy
-    //danh sach cac collider enemy
+    //danh sách các collider enemy
     public List<Collider> colliderTargets = new List<Collider>();
 
     void Start()
@@ -53,4 +53,10 @@ public class DamageZone : MonoBehaviour
         colliderTargets.Clear();
         damageCollider.enabled = false;
     }
+
+    public void IncreaseDamage(int amount)
+    {
+        damageAmount += amount;
+    }
 }
+

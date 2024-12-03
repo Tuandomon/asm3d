@@ -69,5 +69,11 @@ public class MP : MonoBehaviour
             manaText.text = $"{CurrentMP} / {MaxMP}";
         }
     }
-}
 
+    // Hàm tăng MaxMP mà không thay đổi CurrentMP
+    public void IncreaseMaxMP(int amount)
+    {
+        MaxMP += amount;
+        UpdateManaUI();
+    }
+}

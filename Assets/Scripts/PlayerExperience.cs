@@ -11,11 +11,18 @@ public class PlayerExperience : MonoBehaviour
     public TMP_Text expText; // Văn bản hiển thị kinh nghiệm
     public TMP_Text levelText; // Văn bản hiển thị cấp độ
 
+    private PlayerHealth playerHealth;
+    private MP playerMP;
+    private DamageZone damageZone;
+
     private void Start()
     {
         level = 1;
         currentExp = 0;
         requiredExp = 50; // Yêu cầu kinh nghiệm ban đầu để lên cấp
+        playerHealth = GetComponent<PlayerHealth>();
+        playerMP = GetComponent<MP>();
+        damageZone = GetComponentInChildren<DamageZone>();
         UpdateExpUI();
     }
 
@@ -24,7 +31,7 @@ public class PlayerExperience : MonoBehaviour
         // Kiểm tra xem phím Space có được nhấn không để thêm kinh nghiệm
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AddExperience(20); // Thêm 10 điểm kinh nghiệm mỗi lần nhấn Space
+            AddExperience(20); // Thêm 20 điểm kinh nghiệm mỗi lần nhấn Space
         }
     }
 
@@ -50,8 +57,22 @@ public class PlayerExperience : MonoBehaviour
         currentExp -= requiredExp; // Giữ lại phần dư kinh nghiệm cho cấp độ tiếp theo
         level++;
         requiredExp += level * 10; // Tăng yêu cầu kinh nghiệm tùy chỉnh cho cấp độ mới
+
+        // Tăng máu, MP và damage theo cấp độ
+        int healthIncrease = level; // Tăng máu theo cấp độ
+        int manaIncrease = level; // Tăng MP theo cấp độ
+        int damageIncrease = 2; // Tăng damage thêm 2
+
+        playerHealth.maxHP += healthIncrease;
+        playerHealth.UpdateHealthUI(); // Cập nhật UI sức khỏe
+
+        playerMP.IncreaseMaxMP(manaIncrease);
+
+        damageZone.IncreaseDamage(damageIncrease);
+
         UpdateExpUI();
     }
+
     /*
     Cấp 1: Yêu cầu 50 điểm kinh nghiệm để lên cấp.
     Cấp 2: Yêu cầu 50 + (2 * 10) = 70 điểm kinh nghiệm để lên cấp.

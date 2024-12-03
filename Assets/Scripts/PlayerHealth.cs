@@ -10,6 +10,8 @@ public class PlayerHealth : Health
     private float lastDamageTime; // Thời gian lần cuối nhận damage
     private bool isRecovering;
 
+    public float regenRate = 6f; // Mặc định là 6 giây hồi 1 máu
+
     private void Start()
     {
         currentHP = maxHP;
@@ -38,25 +40,32 @@ public class PlayerHealth : Health
     {
         while (isRecovering)
         {
-            yield return new WaitForSeconds(6f); // Đợi 6 giây trước khi hồi máu
-            if (Time.time >= lastDamageTime + 2f)
+            yield return new WaitForSeconds(regenRate); // Đợi theo thời gian regenRate
+            if (currentHP < maxHP)
             {
                 currentHP = Mathf.Min(currentHP + 1, maxHP); // Hồi 1 máu
                 UpdateHealthUI();
             }
             else
             {
-                isRecovering = false; // Ngừng hồi máu nếu nhận damage trong quá trình hồi
+                isRecovering = false;
             }
         }
     }
 
-    private void UpdateHealthUI()
+    public void UpdateHealthUI()
     {
-        healthBar.fillAmount = currentHP / maxHP;
+        healthBar.fillAmount = (float)currentHP / maxHP;
         healthText.text = $"{currentHP:F0} / {maxHP:F0}"; // Hiển thị số máu
     }
+
+    public void IncreaseMaxHP(int amount)
+    {
+        maxHP += amount;
+        UpdateHealthUI();
+    }
 }
+
 
 
 
