@@ -4168,7 +4168,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4943450142683366, guid: 0edbfd697bd8266428ec1d0eddf36e5f, type: 3}
   m_PrefabInstance: {fileID: 2126954322}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
+
 --- !u!1 &256424002
 GameObject:
   m_ObjectHideFlags: 0
@@ -4303,8 +4303,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 256424002}
   m_CullTransparentMesh: 1
-=======
->>>>>>> parent of 1d6edf4 (nhacnengame)
+
+
 --- !u!4 &261575447 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4316652776831010, guid: 9b3d693a654a56c43b2249ca7efee293, type: 3}
@@ -15032,7 +15032,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4071750753398162, guid: a397f10d7b785064e9d0f7b5ab603003, type: 3}
   m_PrefabInstance: {fileID: 1031296610}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
+
 --- !u!1001 &1035892422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15124,8 +15124,8 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 407360987}
   m_SourcePrefab: {fileID: 100100000, guid: 2db03e7c8a8135146b280e5da7e0289c, type: 3}
-=======
->>>>>>> parent of 1d6edf4 (nhacnengame)
+
+
 --- !u!1001 &1042624952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32639,7 +32639,7 @@ SceneRoots:
   - {fileID: 920214538}
   - {fileID: 1131261357}
   - {fileID: 153571766}
-<<<<<<< HEAD
+
   - {fileID: 164992350}
-=======
->>>>>>> parent of 1d6edf4 (nhacnengame)
+
+
