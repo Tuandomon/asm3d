@@ -6388,7 +6388,7 @@ Transform:
   m_GameObject: {fileID: 588330480}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 341.16, y: 8.729029, z: 325.03}
+  m_LocalPosition: {x: 239.1, y: 5.6, z: 175.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7747,8 +7747,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.46, y: 3.01, z: 2.58}
-  m_Center: {x: 0.17, y: -0.02, z: 0.37}
+  m_Size: {x: 2.7974794, y: 2.1119096, z: 2.5726948}
+  m_Center: {x: 0.0012626768, y: 1.0487026, z: -0.011057035}
 --- !u!1001 &712292938
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11626,7 +11626,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 688, y: 392}
+  m_AnchoredPosition: {x: 688, y: 383}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &979232207
@@ -15412,7 +15412,7 @@ MonoBehaviour:
   killedCountText: {fileID: 1615406104}
   completeQuestButton: {fileID: 2048133971}
   cancelQuestButton: {fileID: 1023735419}
-  questName: Kill 5 Skeletons
+  questName: "H\u1EA1 5 Skeletons"
   targetEnemyName: Skeleton Lv1
   requiredKills: 5
   currentKills: 0
@@ -17392,8 +17392,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372618687}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.07986328, y: 0.00000003062148, z: -0.000000002453368, w: 0.99680585}
-  m_LocalPosition: {x: 341.16, y: 8.729029, z: 325.03}
+  m_LocalRotation: {x: 0.07986267, y: 0.000000026259668, z: -0.0000000021038873, w: 0.9968059}
+  m_LocalPosition: {x: 239.1, y: 5.6, z: 175.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19063,8 +19063,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.6397625, z: 1}
-  m_Center: {x: 0, y: 0.8756899, z: 0}
+  m_Size: {x: 1.8152581, y: 1.6397625, z: 1.9510174}
+  m_Center: {x: 0.0803444, y: 0.8756899, z: 0.11002105}
 --- !u!1001 &1509493351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21612,6 +21612,7 @@ MonoBehaviour:
   drainRate: 0.8
   manaBar: {fileID: 2032664718}
   manaText: {fileID: 1895035425}
+  damage: 0
 --- !u!114 &1742793659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25640,15 +25641,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1014322214942410913, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 341.16
+      value: 239.1
       objectReference: {fileID: 0}
     - target: {fileID: 1014322214942410913, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.2290287
+      value: 3.1
       objectReference: {fileID: 0}
     - target: {fileID: 1014322214942410913, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 330.03
+      value: 180.3
       objectReference: {fileID: 0}
     - target: {fileID: 1014322214942410913, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25693,6 +25694,14 @@ PrefabInstance:
     - target: {fileID: 5343447947445157254, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534323876771480359, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.955
+      objectReference: {fileID: 0}
+    - target: {fileID: 5534323876771480359, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.128
       objectReference: {fileID: 0}
     - target: {fileID: 8548484601772316593, guid: 321298d942e7101439b1aa69617edd2b, type: 3}
       propertyPath: damageAmount

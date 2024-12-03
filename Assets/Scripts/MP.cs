@@ -12,11 +12,13 @@ public class MP : MonoBehaviour
     public TMP_Text manaText; // Văn bản hiển thị mana
     private float nextDrainTime = 0f;
     private bool isRecovering = false;
+    public float damage; // Thêm thuộc tính damage nếu cần
 
     // Start is called before the first frame update
     void Start()
     {
         CurrentMP = MaxMP;
+        UpdateManaUI(); // Cập nhật UI ngay từ đầu
     }
 
     // Update is called once per frame
@@ -56,9 +58,16 @@ public class MP : MonoBehaviour
     }
 
     // Hàm cập nhật UI thanh mana
-    void UpdateManaUI()
+    public void UpdateManaUI()
     {
-        manaBar.fillAmount = (float)CurrentMP / MaxMP;
-        manaText.text = $"{CurrentMP} / {MaxMP}";
+        if (manaBar != null)
+        {
+            manaBar.fillAmount = (float)CurrentMP / MaxMP;
+        }
+        if (manaText != null)
+        {
+            manaText.text = $"{CurrentMP} / {MaxMP}";
+        }
     }
 }
+

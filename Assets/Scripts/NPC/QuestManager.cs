@@ -33,8 +33,8 @@ public class QuestManager : MonoBehaviour
     private void UpdateQuestUI()
     {
         questNameText.text = questName;
-        killCountText.text = $"Kills Needed: {requiredKills}";
-        killedCountText.text = $"Kills Done: {currentKills}";
+        killCountText.text = $"Mục tiêu: {requiredKills}";
+        killedCountText.text = $"Đã hạ: {currentKills}";
         completeQuestButton.interactable = currentKills >= requiredKills;
     }
 
