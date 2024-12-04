@@ -6337,7 +6337,13 @@ MonoBehaviour:
   NPCPanel: {fileID: 141044970}
   NPCTextContent: {fileID: 565707604}
   content:
-  - Hi
+  - "Tuy\u1EC7t v\u1EDDi! B\u1EA1n \u0111\xE3 m\u1EA1nh h\u01A1n ..."
+  - "B\u1EA1n c\xF3 th\u1EC3 gi\xFAp t\xF4i \u0111i\u1EC1u n\xE0y \u0111\u01B0\u1EE3c
+    kh\xF4ng?"
+  - "C\xF3 1 \u0111\xE1m qu\xE1i r\u1EA5t m\u1EA1nh \u1EDF g\u1EA7n \u0111\xE2y,
+    t\xF4i kh\xF4ng th\u1EC3 ti\xEAu di\u1EC7t b\u1ECDn ch\xFAng!"
+  - "B\u1EA1n h\xE3y gi\xFAp t\xF4i ti\xEAu di\u1EC7t b\u1ECDn ch\xFAng ..."
+  - "B\u1EA1n ch\u1EAFc ch\u1EE9?"
   ContinueButton: {fileID: 893751318}
   CancelButton: {fileID: 1461380112}
   QuestButton: {fileID: 1182578274}
@@ -14971,7 +14977,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6252356961377389083, guid: 2db03e7c8a8135146b280e5da7e0289c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6252356961377389083, guid: 2db03e7c8a8135146b280e5da7e0289c, type: 3}
+      propertyPath: m_TagString
+      value: NPC
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
