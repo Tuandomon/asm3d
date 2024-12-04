@@ -7,9 +7,12 @@ public class PlayerExperience : MonoBehaviour
     public int currentExp;
     public int requiredExp;
     public int level;
+    public int statPoints = 0; // Điểm có thể nâng
     public Image expBar; // Thanh kinh nghiệm
     public TMP_Text expText; // Văn bản hiển thị kinh nghiệm
     public TMP_Text levelText; // Văn bản hiển thị cấp độ
+    public TMP_Text statPointsText; // Văn bản hiển thị điểm có thể nâng
+    public Button upgradeButton; // Nút hiển thị khi có điểm nâng cấp
 
     private PlayerHealth playerHealth;
     private MP playerMP;
@@ -23,6 +26,7 @@ public class PlayerExperience : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         playerMP = GetComponent<MP>();
         damageZone = GetComponentInChildren<DamageZone>();
+        upgradeButton.gameObject.SetActive(false); // Ẩn nút nâng cấp khi bắt đầu
         UpdateExpUI();
     }
 
@@ -40,6 +44,17 @@ public class PlayerExperience : MonoBehaviour
         expBar.fillAmount = (float)currentExp / requiredExp;
         expText.text = $"{currentExp} / {requiredExp}"; // Hiển thị số kinh nghiệm
         levelText.text = $"Lv {level}"; // Hiển thị cấp độ hiện tại
+        statPointsText.text = $"Stat Points: {statPoints}"; // Hiển thị điểm có thể nâng
+
+        // Hiển thị hoặc ẩn nút nâng cấp dựa trên điểm có thể nâng
+        if (statPoints > 0)
+        {
+            upgradeButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            upgradeButton.gameObject.SetActive(false);
+        }
     }
 
     public void AddExperience(int amount)
@@ -57,6 +72,7 @@ public class PlayerExperience : MonoBehaviour
         currentExp -= requiredExp; // Giữ lại phần dư kinh nghiệm cho cấp độ tiếp theo
         level++;
         requiredExp += level * 10; // Tăng yêu cầu kinh nghiệm tùy chỉnh cho cấp độ mới
+        statPoints += 3; // Thêm 3 điểm có thể nâng mỗi lần lên cấp
 
         // Tăng máu, MP và damage theo cấp độ
         int healthIncrease = level; // Tăng máu theo cấp độ
@@ -71,6 +87,17 @@ public class PlayerExperience : MonoBehaviour
         damageZone.IncreaseDamage(damageIncrease);
 
         UpdateExpUI();
+    }
+
+    public bool SpendStatPoint()
+    {
+        if (statPoints > 0)
+        {
+            statPoints--;
+            UpdateExpUI();
+            return true;
+        }
+        return false;
     }
 
     /*
