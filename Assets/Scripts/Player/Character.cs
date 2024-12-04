@@ -10,6 +10,8 @@ public class Character : MonoBehaviour
     public float sprintSpeed = 10f; // Bổ sung: Tốc độ chạy nhanh
     public Vector3 movementVelocity;
     public PlayerInput playerInput;
+    public AudioSource audioSource;  // Thành phần AudioSource để phát âm thanh
+    public AudioClip hitSound;      // Âm thanh khi bị đánh
 
     // Animation
     public Animator animator;
@@ -30,7 +32,23 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        {
+            if (audioSource == null)
+            {
+                audioSource = GetComponent<AudioSource>();  // Lấy AudioSource trên nhân vật
+            }
+        }
 
+    }
+    public void TakeDamage()
+    {
+        if (hitSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(hitSound);  // Phát âm thanh bị đánh
+        }
+
+        // Thêm logic xử lý mất máu hoặc hiệu ứng tại đây
+        Debug.Log("Nhân vật bị đánh!");
     }
 
     // Update is called once per frame
