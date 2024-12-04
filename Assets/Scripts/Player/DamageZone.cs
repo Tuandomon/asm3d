@@ -53,8 +53,8 @@ public class DamageZone : MonoBehaviour
 
     public void EndAttack()
     {
-        colliderTargets.Clear();
         damageCollider.enabled = false;
+        colliderTargets.Clear();
     }
 
     public void IncreaseDamage(int amount)
@@ -73,4 +73,5 @@ public class DamageZone : MonoBehaviour
         Debug.Log("Nhân vật bị đánh!");
     }
 }
+
 

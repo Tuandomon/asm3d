@@ -29,17 +29,14 @@ public class Character : MonoBehaviour
     }
     public CharacterState currentState; //trang thai hien tai
 
-    // Start is called before the first frame update
     void Start()
     {
+        if (audioSource == null)
         {
-            if (audioSource == null)
-            {
-                audioSource = GetComponent<AudioSource>();  // Lấy AudioSource trên nhân vật
-            }
+            audioSource = GetComponent<AudioSource>();  // Lấy AudioSource trên nhân vật
         }
-
     }
+    
     public void TakeDamage()
     {
         if (hitSound != null && audioSource != null)
@@ -51,7 +48,6 @@ public class Character : MonoBehaviour
         Debug.Log("Nhân vật bị đánh!");
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if(health.currentHP <= 0)
@@ -70,7 +66,6 @@ public class Character : MonoBehaviour
                 characterController.Move(movementVelocity);
                 break;
         }
-        //characterController.Move(movementVelocity);
     }
 
     void CalculateMovement()
@@ -82,26 +77,14 @@ public class Character : MonoBehaviour
             return;
         }
 
-        // Lấy thông tin đầu vào từ người chơi
         float horizontalInput = playerInput.horizontalInput;
         float verticalInput = playerInput.verticalInput;
 
-        // Tạo vector chuyển động dựa trên đầu vào
         movementVelocity = new Vector3(horizontalInput, 0, verticalInput);
-
-        // Chuẩn hóa vector để đảm bảo tốc độ di chuyển nhất quán
         movementVelocity.Normalize();
-
-        // Chuyển đổi vector theo hướng camera để nhân vật luôn di chuyển theo góc nhìn của người chơi
         movementVelocity = Camera.main.transform.TransformDirection(movementVelocity);
-
-        // Loại bỏ thành phần y để giữ nhân vật di chuyển trên mặt phẳng xz
         movementVelocity.y = 0;
 
-        // Tính toán vận tốc thực tế của nhân vật
-        //movementVelocity *= speed * Time.deltaTime;
-
-        // Kiểm tra phím Shift để thay đổi tốc độ 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
         { 
             movementVelocity *= sprintSpeed * Time.deltaTime; // Sử dụng tốc độ chạy nhanh 
@@ -110,21 +93,17 @@ public class Character : MonoBehaviour
         { 
             movementVelocity *= speed * Time.deltaTime; // Sử dụng tốc độ bình thường
         }
-        // Cập nhật animation
+
         animator.SetFloat("Speed", movementVelocity.magnitude);
-        // Xoay hướng của nhân vật theo hướng di chuyển
         if (movementVelocity != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(movementVelocity);
         }
     }
 
-    //chuyen doi trang thai
     private void ChangeState(CharacterState newState)
     {
-        //xoa cache
         playerInput.attackInput = false;
-        //exit current state
         switch (currentState)
         {
             case CharacterState.Normal:
@@ -133,7 +112,6 @@ public class Character : MonoBehaviour
                 break;
         }
 
-        //enter new state
         switch (newState)
         {
             case CharacterState.Normal:
@@ -147,7 +125,6 @@ public class Character : MonoBehaviour
                 break;
         }
 
-        //update current state
         currentState = newState;
     }
 
@@ -162,6 +139,11 @@ public class Character : MonoBehaviour
     public void EndAttack()
     {
         damageZone.EndAttack();
+    }
+
+    public void IncreaseCharacterDamage(int amount)
+    {
+        damageZone.IncreaseDamage(amount);
     }
 
     /*public override void TakeDamage(float damage)
