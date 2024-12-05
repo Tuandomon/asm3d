@@ -662,7 +662,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: eabb5aa53121a4f4fa9d4ef61fb4e261, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1015,8 +1015,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicAudioSource: {fileID: 854748084}
   vfxAudioSource: {fileID: 1590022388}
-  musicClip: {fileID: 8300000, guid: eabb5aa53121a4f4fa9d4ef61fb4e261, type: 3}
+  musicClips: []
   winClip: {fileID: 0}
+  delayBetweenTracks: 5
 --- !u!4 &1467539610
 Transform:
   m_ObjectHideFlags: 0
