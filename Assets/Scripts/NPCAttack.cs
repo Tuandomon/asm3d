@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class NPCAttack : MonoBehaviour
 {
@@ -8,7 +9,11 @@ public class NPCAttack : MonoBehaviour
     public float detectionRadius = 10f; // Bán kính tìm mục tiêu
     public float followDistance = 2f; // Khoảng cách giữ với Player
     public float behindDistance = 1f; // Khoảng cách đứng phía sau Player
+    public float attackCooldown = 2f; // Thời gian hồi chiêu tấn công (giây)
+    public float moveSpeed = 3.5f; // Tốc độ di chuyển của NPC
+    public float lifetime = 10f; // Thời gian tồn tại của NPC (giây)
 
+    private float lastAttackTime = 0f; // Thời gian tấn công cuối cùng
     private GameObject[] enemies;
     private NavMeshAgent navMeshAgent;
     private Animator animator;
@@ -17,7 +22,11 @@ public class NPCAttack : MonoBehaviour
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.speed = moveSpeed; // Thiết lập tốc độ di chuyển của NavMeshAgent
         animator = GetComponent<Animator>();
+
+        // Bắt đầu đếm ngược thời gian tồn tại của NPC
+        StartCoroutine(NPCDespawnCountdown());
     }
 
     void Update()
@@ -47,7 +56,11 @@ public class NPCAttack : MonoBehaviour
             // Tính khoảng cách giữa NPC và kẻ thù
             if (closestDistance <= attackRange)
             {
-                Attack(closestEnemy);
+                if (Time.time >= lastAttackTime + attackCooldown)
+                {
+                    Attack(closestEnemy);
+                    lastAttackTime = Time.time;
+                }
             }
             animator.SetFloat("Speed", navMeshAgent.velocity.magnitude);
         }
@@ -74,6 +87,13 @@ public class NPCAttack : MonoBehaviour
     {
         player = playerTransform;
     }
+
+    private IEnumerator NPCDespawnCountdown()
+    {
+        yield return new WaitForSeconds(lifetime);
+        Destroy(gameObject); // Hủy đối tượng NPC sau thời gian tồn tại
+    }
 }
+
 
 

@@ -160,3 +160,5 @@ MonoBehaviour:
   detectionRadius: 10
   followDistance: 2
   behindDistance: 1
+  attackCooldown: 2
+  moveSpeed: 5
