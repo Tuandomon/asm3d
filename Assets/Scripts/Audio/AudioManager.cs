@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     private bool isPlayingZoneMusic = false; // Biến để kiểm tra trạng thái phát nhạc vùng
     private bool playerInZone = false; // Biến để kiểm tra nếu nhân vật còn trong vùng nhạc
     private Queue<AudioClip> zoneMusicQueue = new Queue<AudioClip>(); // Hàng đợi nhạc vùng
+    private AudioClip currentZoneClip = null; // Lưu trữ clip vùng hiện tại
 
     private void Start()
     {
@@ -60,13 +61,15 @@ public class AudioManager : MonoBehaviour
             {
                 if (zoneMusicQueue.Count > 0)
                 {
-                    musicAudioSource.clip = zoneMusicQueue.Dequeue();
+                    currentZoneClip = zoneMusicQueue.Dequeue();
+                    musicAudioSource.clip = currentZoneClip;
                     musicAudioSource.Play();
                     yield return new WaitForSeconds(musicAudioSource.clip.length);
                 }
                 else
                 {
                     isPlayingZoneMusic = false;
+                    currentZoneClip = null;
                     if (playerInZone)
                     {
                         // Reset queue and continue playing zone music if player re-enters
@@ -91,8 +94,10 @@ public class AudioManager : MonoBehaviour
 
     public void AddZoneMusic(AudioClip clip)
     {
-        if (!isPlayingZoneMusic)
+        if (currentZoneClip != clip)
         {
+            StopAllCoroutines();
+            zoneMusicQueue.Clear();
             isPlayingZoneMusic = true;
             zoneMusicQueue.Enqueue(clip);
             StartCoroutine(PlayZoneMusic());
@@ -103,19 +108,29 @@ public class AudioManager : MonoBehaviour
     {
         while (zoneMusicQueue.Count > 0)
         {
-            musicAudioSource.clip = zoneMusicQueue.Dequeue();
+            currentZoneClip = zoneMusicQueue.Dequeue();
+            musicAudioSource.clip = currentZoneClip;
             musicAudioSource.Play();
             yield return new WaitForSeconds(musicAudioSource.clip.length);
         }
         isPlayingZoneMusic = false;
+        currentZoneClip = null;
         StartCoroutine(PlayMusic());
     }
 
     public void SetPlayerInZone(bool inZone)
     {
         playerInZone = inZone;
+        if (!inZone)
+        {
+            StopAllCoroutines();
+            isPlayingZoneMusic = false;
+            currentZoneClip = null;
+            StartCoroutine(PlayMusic());
+        }
     }
 }
+
 
 
 

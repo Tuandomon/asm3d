@@ -10,6 +10,11 @@ public class ZoneMusicTrigger : MonoBehaviour
     private void Start()
     {
         audioManager = FindObjectOfType<AudioManager>();
+        // Preload music clip
+        if (zoneMusicClip.loadState != AudioDataLoadState.Loaded)
+        {
+            zoneMusicClip.LoadAudioData();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,6 +40,7 @@ public class ZoneMusicTrigger : MonoBehaviour
         }
     }
 }
+
 
 
 
