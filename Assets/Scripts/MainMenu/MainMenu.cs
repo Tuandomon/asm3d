@@ -29,6 +29,11 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("PBRScene"); // Tải lại scene menu chính
+    }
+
     private IEnumerator LoadGameAsync(string sceneName)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
@@ -43,4 +48,3 @@ public class MainMenu : MonoBehaviour
         }
     }
 }
-
