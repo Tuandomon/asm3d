@@ -100,7 +100,7 @@ public class PlayerStats : MonoBehaviour
 
     private void UpdateStatPointsUI()
     {
-        statPointsText.text = $"Stat Points: {playerExperience.statPoints}"; // Hiển thị điểm có thể nâng
+        statPointsText.text = $"Điểm hiện có: {playerExperience.statPoints}"; // Hiển thị điểm có thể nâng
     }
 }
 
