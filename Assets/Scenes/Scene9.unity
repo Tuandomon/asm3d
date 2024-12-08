@@ -12758,8 +12758,9 @@ MonoBehaviour:
   musicAudioSource: {fileID: 171710184}
   vfxAudioSource: {fileID: 1959075572}
   musicClips:
-  - {fileID: 8300000, guid: eabb5aa53121a4f4fa9d4ef61fb4e261, type: 3}
-  - {fileID: 8300000, guid: fe0d49681ebbc6e489f2d5b343a1cd58, type: 3}
+  - {fileID: 8300000, guid: f2e6683e994a413449fc91371ff29e1d, type: 3}
+  - {fileID: 8300000, guid: abe3a0ed41eebda48a644ff81e112b64, type: 3}
+  - {fileID: 8300000, guid: d58878597dcfdcf4aa589f885a3c34d2, type: 3}
   winClip: {fileID: 0}
   delayBetweenTracks: 5
 --- !u!4 &889711441
@@ -29863,7 +29864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188a4c0241ea46a47bdb0c668c92e29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoneMusicClip: {fileID: 8300000, guid: fe0d49681ebbc6e489f2d5b343a1cd58, type: 3}
+  zoneMusicClip: {fileID: 8300000, guid: e281d14b402e743429898772bfb4fdf0, type: 3}
 --- !u!65 &1903013702
 BoxCollider:
   m_ObjectHideFlags: 0
