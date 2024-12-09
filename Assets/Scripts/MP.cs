@@ -48,7 +48,7 @@ public class MP : MonoBehaviour
     {
         while (isRecovering && !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
         {
-            yield return new WaitForSeconds(2f); // Hồi 2 mana mỗi giây
+            yield return new WaitForSeconds(1f); // Hồi 2 mana mỗi giây
             if (CurrentMP < MaxMP)
             {
                 CurrentMP += 1;

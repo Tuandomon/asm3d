@@ -156,9 +156,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 1.5
-  damage: 10
+  damage: 35
   detectionRadius: 10
   followDistance: 2
   behindDistance: 1
-  attackCooldown: 2
+  attackCooldown: 2.5
   moveSpeed: 5
+  lifetime: 15
