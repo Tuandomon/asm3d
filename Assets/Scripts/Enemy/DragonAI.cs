@@ -17,7 +17,7 @@ public class DragonAI : MonoBehaviour
 
     public DamageZone damageZone;
 
-    public Health health;
+    public DragonHealth health; // Sử dụng DragonHealth thay vì Health
 
     public float attackCooldown = 2f; // Thời gian chờ giữa các lần tấn công
     private float lastAttackTime = -Mathf.Infinity; // Thời điểm lần tấn công cuối cùng
@@ -28,6 +28,10 @@ public class DragonAI : MonoBehaviour
     private PlayerExperience playerExperience; // Tham chiếu đến PlayerExperience
 
     public GameObject winCanvas; // Tham chiếu đến Canvas chiến thắng
+
+    public GameObject healthCanvas; // Canvas máu của Dragon
+    public Transform player; // Transform của người chơi
+    public float displayRange = 10f; // Phạm vi hiển thị Canvas máu
 
     public enum CharacterState
     {
@@ -48,6 +52,12 @@ public class DragonAI : MonoBehaviour
         {
             winCanvas = GameObject.Find("WinCanvas");
             winCanvas.SetActive(false); // Ẩn Canvas chiến thắng lúc đầu
+        }
+
+        // Ẩn Canvas máu khi bắt đầu
+        if (healthCanvas != null)
+        {
+            healthCanvas.SetActive(false);
         }
     }
 
@@ -99,6 +109,20 @@ public class DragonAI : MonoBehaviour
             }
 
             ChangeState(CharacterState.Normal);
+        }
+
+        // Hiển thị hoặc ẩn Canvas máu dựa trên khoảng cách tới người chơi
+        float distanceToPlayer = Vector3.Distance(player.position, transform.position);
+        if (healthCanvas != null)
+        {
+            if (distanceToPlayer <= displayRange)
+            {
+                healthCanvas.SetActive(true);
+            }
+            else
+            {
+                healthCanvas.SetActive(false);
+            }
         }
     }
 
@@ -162,4 +186,17 @@ public class DragonAI : MonoBehaviour
 
         currentState = newState;
     }
+
+    // Phương thức EndAttack cần cho Animation Event
+    public void EndAttack()
+    {
+        damageZone.EndAttack();
+    }
+
+    // Phương thức BeginAttack cần cho Animation Event
+    public void BeginAttack()
+    {
+        damageZone.BeginAttack();
+    }
 }
+

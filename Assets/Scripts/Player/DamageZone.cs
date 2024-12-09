@@ -7,8 +7,7 @@ public class DamageZone : MonoBehaviour
     public Collider damageCollider;
     public int damageAmount = 20;
 
-    public string targetTag; //tag Enemy
-    //danh sách các collider enemy
+    public string targetTag; // Tag của mục tiêu
     public List<Collider> colliderTargets = new List<Collider>();
 
     public AudioSource audioSource;  // Thành phần AudioSource để phát âm thanh
@@ -28,6 +27,7 @@ public class DamageZone : MonoBehaviour
             if (go != null)
             {
                 go.TakeDamage(damageAmount);
+                Debug.Log($"{other.gameObject.name} bị tấn công, máu hiện tại: {go.currentHP}");
             }
         }
     }
@@ -41,6 +41,7 @@ public class DamageZone : MonoBehaviour
             if (go != null)
             {
                 go.TakeDamage(damageAmount);
+                Debug.Log($"{other.gameObject.name} bị tấn công, máu hiện tại: {go.currentHP}");
             }
         }
     }
@@ -73,5 +74,6 @@ public class DamageZone : MonoBehaviour
         Debug.Log("Nhân vật bị đánh!");
     }
 }
+
 
 
