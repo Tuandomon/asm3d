@@ -7,11 +7,11 @@ public class Character : MonoBehaviour
 {
     public CharacterController characterController;
     public float speed = 5f;
-    public float sprintSpeed = 10f; // Bổ sung: Tốc độ chạy nhanh
+    public float sprintSpeed = 10f; // Tốc độ chạy nhanh
     public Vector3 movementVelocity;
     public PlayerInput playerInput;
     public AudioSource audioSource;  // Thành phần AudioSource để phát âm thanh
-    public AudioClip hitSound;      // Âm thanh khi bị đánh
+    public AudioClip hitSound;       // Âm thanh khi bị đánh
 
     // Animation
     public Animator animator;
@@ -20,14 +20,14 @@ public class Character : MonoBehaviour
 
     public Health health;
 
-    //state machine
+    // Trạng thái của nhân vật
     public enum CharacterState
     {
         Normal,
         Attack,
         Die
     }
-    public CharacterState currentState; //trang thai hien tai
+    public CharacterState currentState; // Trạng thái hiện tại
 
     void Start()
     {
@@ -36,7 +36,7 @@ public class Character : MonoBehaviour
             audioSource = GetComponent<AudioSource>();  // Lấy AudioSource trên nhân vật
         }
     }
-    
+
     public void TakeDamage()
     {
         if (hitSound != null && audioSource != null)
@@ -50,17 +50,25 @@ public class Character : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(health.currentHP <= 0)
+        SimulateFixedUpdate(); // Chuyển toàn bộ logic sang phương thức công khai mới
+    }
+
+    // Phương thức công khai mới chứa logic của FixedUpdate
+    public void SimulateFixedUpdate()
+    {
+        if (health.currentHP <= 0)
         {
             ChangeState(CharacterState.Die);
             return;
         }
+
         switch (currentState)
         {
             case CharacterState.Normal:
                 CalculateMovement();
                 characterController.Move(movementVelocity);
                 break;
+
             case CharacterState.Attack:
                 movementVelocity = Vector3.zero;
                 characterController.Move(movementVelocity);
@@ -85,13 +93,13 @@ public class Character : MonoBehaviour
         movementVelocity = Camera.main.transform.TransformDirection(movementVelocity);
         movementVelocity.y = 0;
 
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) 
-        { 
-            movementVelocity *= sprintSpeed * Time.deltaTime; // Sử dụng tốc độ chạy nhanh 
-        } 
-        else 
-        { 
-            movementVelocity *= speed * Time.deltaTime; // Sử dụng tốc độ bình thường
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            movementVelocity *= sprintSpeed * Time.deltaTime; // Tốc độ chạy nhanh
+        }
+        else
+        {
+            movementVelocity *= speed * Time.deltaTime; // Tốc độ bình thường
         }
 
         animator.SetFloat("Speed", movementVelocity.magnitude);
@@ -104,10 +112,12 @@ public class Character : MonoBehaviour
     private void ChangeState(CharacterState newState)
     {
         playerInput.attackInput = false;
+
         switch (currentState)
         {
             case CharacterState.Normal:
                 break;
+
             case CharacterState.Attack:
                 break;
         }
@@ -117,9 +127,11 @@ public class Character : MonoBehaviour
             case CharacterState.Normal:
                 animator.SetFloat("Speed", 0);
                 break;
+
             case CharacterState.Attack:
                 animator.SetTrigger("Attack");
                 break;
+
             case CharacterState.Die:
                 animator.SetTrigger("Die");
                 break;
@@ -145,13 +157,4 @@ public class Character : MonoBehaviour
     {
         damageZone.IncreaseDamage(amount);
     }
-
-    /*public override void TakeDamage(float damage)
-    {
-        base.TakeDamage(damage);
-        if (currentHP <= 0)
-        {
-           ChangeState(CharacterState.Die);
-        }
-    }*/
 }

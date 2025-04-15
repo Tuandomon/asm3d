@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
         optionsMenu.SetActive(false); // Đóng cửa sổ tùy chọn
     }
 
-    public void ExitGame()
+    public virtual void ExitGame()
     {
         Application.Quit();
     }

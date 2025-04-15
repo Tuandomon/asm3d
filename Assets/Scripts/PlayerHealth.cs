@@ -29,8 +29,15 @@ public class PlayerHealth : Health
 
     private void Update()
     {
+        SimulateUpdate(); // Gọi logic qua phương thức công khai
+    }
+
+    // Phương thức công khai để kiểm tra logic của Update
+    public void SimulateUpdate()
+    {
         if (!isRecovering && Time.time >= lastDamageTime + 2f)
         {
+            Debug.Log("Starting health regeneration...");
             isRecovering = true;
             StartCoroutine(RecoverHealth());
         }
@@ -40,14 +47,17 @@ public class PlayerHealth : Health
     {
         while (isRecovering)
         {
-            yield return new WaitForSeconds(regenRate); // Đợi theo thời gian regenRate
+            Debug.Log($"Recovering... Current HP: {currentHP}, Max HP: {maxHP}");
+            yield return new WaitForSeconds(regenRate); // Chờ theo thời gian regenRate
             if (currentHP < maxHP)
             {
                 currentHP = Mathf.Min(currentHP + 1, maxHP); // Hồi 1 máu
                 UpdateHealthUI();
+                Debug.Log($"Recovered to {currentHP} HP.");
             }
             else
             {
+                Debug.Log("Stopping recovery: HP is full.");
                 isRecovering = false;
             }
         }
@@ -64,8 +74,13 @@ public class PlayerHealth : Health
         maxHP += amount;
         UpdateHealthUI();
     }
+
+    public void ForceHealthRegeneration()
+    {
+        if (currentHP < maxHP)
+        {
+            currentHP = Mathf.Min(currentHP + 1, maxHP); // Hồi 1 máu
+            UpdateHealthUI();
+        }
+    }
 }
-
-
-
-

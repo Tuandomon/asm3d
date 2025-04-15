@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
-using Cinemachine;
 
 public class NPC : MonoBehaviour
 {
@@ -112,5 +111,7 @@ public class NPC : MonoBehaviour
     }
 }
 
-
-
+public class CinemachineFreeLook
+{
+    internal bool enabled;
+}

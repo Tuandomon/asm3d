@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro; // Thư viện TextMeshPro
 using UnityEngine.UI;
-using Cinemachine;
 
 public class DragonNPC : MonoBehaviour
 {
